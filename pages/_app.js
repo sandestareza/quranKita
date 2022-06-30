@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { store } from '../redux/store'
 
 import '../styles/globals.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaArrowUp } from "react-icons/fa"
 
 
@@ -11,17 +11,18 @@ function MyApp({ Component, pageProps }) {
 
   const [scrollTop, setScrollTop] = useState(true);
 
-  window.onscroll = function () {
-      scrollFunction();
-  }
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            setScrollTop(false);
+        } else {
+            setScrollTop(true);
+        }
+    }, { passive: true })
 
-  const scrollFunction = () => {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-          setScrollTop(false)
-      } else {
-          setScrollTop(true)
-      }
-  }
+  }, [])
+  
+
   return (
       <Provider store={store}>
         <Layout>
